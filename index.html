@@ -66,27 +66,26 @@
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.from(".card", {
-      clipPath: "inset(50% 0% 50% 0%)",
-      rotateX: 6,
-      transformPerspective: 1000,
-      duration: 1.2,
-      ease: "expo.out",
+      clipPath: "circle(0% at 50% 50%)",
+      duration: 1.4,
+      ease: "power3.out",
       stagger: 0.15,
       scrollTrigger: {
         trigger: ".cards",
-        start: "top 85%"
+        start: "top 85%",
+        toggleActions: "play reverse play reverse"
       }
     });
 
     gsap.from(".card img", {
-      scale: 1.25,
-      y: 40,
-      duration: 1.2,
-      ease: "expo.out",
+      scale: 1.15,
+      duration: 1.4,
+      ease: "power3.out",
       stagger: 0.15,
       scrollTrigger: {
         trigger: ".cards",
-        start: "top 85%"
+        start: "top 85%",
+        toggleActions: "play reverse play reverse"
       }
     });
   </script>
