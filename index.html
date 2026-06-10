@@ -39,6 +39,7 @@
       overflow: hidden;
       border-radius: 32px;
       clip-path: inset(5% 65% 50% 5% round 32px);
+      perspective: 800px;
     }
 
     .card img {
@@ -79,10 +80,23 @@
       { clipPath: "inset(5% 65% 50% 5% round 32px)", immediateRender: false },
       { clipPath: "inset(0% 0% 0% 0% round 32px)", duration: 0.85, ease: "power2.out", stagger: 0.15 }
     ).fromTo(".card img",
-      { scale: 1.15, immediateRender: false },
-      { scale: 1, duration: 0.85, ease: "power2.out", stagger: 0.15 },
+      { scale: 1.15, rotateX: 10, skewX: -4, immediateRender: false },
+      { scale: 1, rotateX: 0, skewX: 0, duration: 0.85, ease: "power2.out", stagger: 0.15 },
       "<"
     );
+
+    // subtle ongoing warp tied to scroll position
+    gsap.to(".card img", {
+      rotateX: -4,
+      skewX: 1.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".cards",
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1.5
+      }
+    });
   </script>
 </body>
 </html>
