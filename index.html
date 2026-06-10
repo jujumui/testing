@@ -13,11 +13,16 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       background: #0a0a0a;
-      min-height: 100vh;
+    }
+
+    .above-fold {
+      height: 100vh;
+    }
+
+    .below-fold {
       display: flex;
-      align-items: center;
       justify-content: center;
       padding: 4rem 2rem;
     }
@@ -32,6 +37,7 @@
       width: 45vw;
       aspect-ratio: 16 / 10;
       overflow: hidden;
+      border-radius: 32px;
     }
 
     .card img {
@@ -43,33 +49,45 @@
   </style>
 </head>
 <body>
-  <div class="cards">
-    <div class="card">
-      <img src="one-piece-1.jpg" alt="Project 1">
-    </div>
-    <div class="card">
-      <img src="one-piece-2.jpg" alt="Project 2">
+  <div class="above-fold"></div>
+
+  <div class="below-fold">
+    <div class="cards">
+      <div class="card">
+        <img src="one-piece-1.jpg" alt="Project 1">
+      </div>
+      <div class="card">
+        <img src="one-piece-2.jpg" alt="Project 2">
+      </div>
     </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      gsap.from(".card", {
-        clipPath: "inset(50% 0% 50% 0%)",
-        rotateX: 6,
-        transformPerspective: 1000,
-        duration: 1.2,
-        ease: "expo.out",
-        stagger: 0.15
-      });
+    gsap.registerPlugin(ScrollTrigger);
 
-      gsap.from(".card img", {
-        scale: 1.25,
-        y: 40,
-        duration: 1.2,
-        ease: "expo.out",
-        stagger: 0.15
-      });
+    gsap.from(".card", {
+      clipPath: "inset(50% 0% 50% 0%)",
+      rotateX: 6,
+      transformPerspective: 1000,
+      duration: 1.2,
+      ease: "expo.out",
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: ".cards",
+        start: "top 85%"
+      }
+    });
+
+    gsap.from(".card img", {
+      scale: 1.25,
+      y: 40,
+      duration: 1.2,
+      ease: "expo.out",
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: ".cards",
+        start: "top 85%"
+      }
     });
   </script>
 </body>
