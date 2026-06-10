@@ -65,12 +65,7 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.from(".card", {
-      clipPath: "circle(0% at 50% 50%)",
-      duration: 1.4,
-      ease: "power3.out",
-      stagger: 0.15,
-      immediateRender: false,
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: ".cards",
         start: "top 85%",
@@ -78,18 +73,14 @@
       }
     });
 
-    gsap.from(".card img", {
-      scale: 1.15,
-      duration: 1.4,
-      ease: "power3.out",
-      stagger: 0.15,
-      immediateRender: false,
-      scrollTrigger: {
-        trigger: ".cards",
-        start: "top 85%",
-        toggleActions: "play reverse play reverse"
-      }
-    });
+    tl.fromTo(".card",
+      { clipPath: "circle(0% at 50% 50%)" },
+      { clipPath: "circle(150% at 50% 50%)", duration: 1.4, ease: "power3.out", stagger: 0.15 }
+    ).fromTo(".card img",
+      { scale: 1.15 },
+      { scale: 1, duration: 1.4, ease: "power3.out", stagger: 0.15 },
+      "<"
+    );
   </script>
 </body>
 </html>
