@@ -38,6 +38,7 @@
       aspect-ratio: 16 / 10;
       overflow: hidden;
       border-radius: 32px;
+      clip-path: inset(5% 65% 50% 5% round 32px);
     }
 
     .card img {
@@ -45,6 +46,7 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transform: scale(1.15);
     }
   </style>
 </head>
@@ -73,11 +75,9 @@
       }
     });
 
-    tl.fromTo(".card",
-      { clipPath: "inset(5% 65% 50% 5% round 32px)" },
+    tl.to(".card",
       { clipPath: "inset(0% 0% 0% 0% round 32px)", duration: 0.85, ease: "power2.out", stagger: 0.15 }
-    ).fromTo(".card img",
-      { scale: 1.15 },
+    ).to(".card img",
       { scale: 1, duration: 0.85, ease: "power2.out", stagger: 0.15 },
       "<"
     );
