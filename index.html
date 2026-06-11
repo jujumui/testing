@@ -186,10 +186,11 @@
     // Deal-from-stack intro: start all cards stacked at the front position, then fan out
     const stackPos = positions[2];
     cards.forEach((card, i) => {
+      const finalRot = positions[cardOrder[i]].rotation;
       gsap.set(card, {
         left: stackPos.left,
         top: stackPos.top,
-        rotation: 0,
+        rotation: finalRot,
         scale: 0.85,
         zIndex: positions[cardOrder[i]].zIndex,
         opacity: 0,
