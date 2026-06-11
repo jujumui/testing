@@ -157,7 +157,7 @@
     const positions = [
       { left: 105, top: 70, rotation: -23.34, zIndex: 1 },
       { left: 151, top: 55, rotation: -9.01,  zIndex: 2 },
-      { left: 216, top: 40, rotation: -0.18,  zIndex: 3 },
+      { left: 216, top: 40, rotation: -0.9,  zIndex: 3 },
     ];
 
     // cardOrder[i] = which position index card i currently occupies
@@ -182,8 +182,33 @@
       });
     }
 
-    // Set initial state
-    applyPositions(false);
+    // Deal-from-stack intro: start all cards stacked at the front position, then fan out
+    const stackPos = positions[2];
+    cards.forEach((card, i) => {
+      gsap.set(card, {
+        left: stackPos.left,
+        top: stackPos.top,
+        rotation: 0,
+        zIndex: positions[cardOrder[i]].zIndex,
+        opacity: 0,
+        transformOrigin: 'center center',
+      });
+    });
+
+    // Fan out one by one, back card first
+    const dealOrder = [0, 1, 2];
+    dealOrder.forEach((cardIndex, i) => {
+      const pos = positions[cardOrder[cardIndex]];
+      gsap.to(cards[cardIndex], {
+        left: pos.left,
+        top: pos.top,
+        rotation: pos.rotation,
+        opacity: 1,
+        duration: 0.65,
+        delay: 0.15 + i * 0.12,
+        ease: 'power3.out',
+      });
+    });
 
     cards.forEach((card, i) => {
       card.style.cursor = 'pointer';
