@@ -183,32 +183,30 @@
       });
     }
 
-    // Intro: all cards stacked at front position, fan out with spring
-    const frontPos = positions[2];
+    // Intro: all cards stacked at middle position (img-4)
+    // img-1 fans right, img-3 fans left, img-4 stays — all at full opacity
+    const midPos = positions[1];
 
     cards.forEach((card, i) => {
       gsap.set(card, {
-        left: frontPos.left,
-        top: frontPos.top,
-        rotation: frontPos.rotation,
-        scale: 0.9,
+        left: midPos.left,
+        top: midPos.top,
+        rotation: midPos.rotation,
+        scale: 1,
         zIndex: positions[cardOrder[i]].zIndex,
         opacity: 1,
         transformOrigin: 'center center',
       });
     });
 
-    // Fan out: front card first (barely moves), middle, then back (travels furthest)
-    [2, 1, 0].forEach((cardIndex, i) => {
-      const pos = positions[cardOrder[cardIndex]];
-      const isBack = i === 2;
-      gsap.to(cards[cardIndex], {
+    cards.forEach((card, i) => {
+      const pos = positions[cardOrder[i]];
+      gsap.to(card, {
         left: pos.left,
         top: pos.top,
         rotation: pos.rotation,
-        scale: 1,
         duration: 0.9,
-        delay: 0.1 + i * 0.07,
+        delay: 0.15,
         ease: 'back.out(1.4)',
       });
     });
