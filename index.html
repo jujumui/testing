@@ -201,16 +201,19 @@
     const dealOrder = [0, 1, 2];
     dealOrder.forEach((cardIndex, i) => {
       const pos = positions[cardOrder[cardIndex]];
-      gsap.to(cards[cardIndex], {
+      const isLast = i === dealOrder.length - 1;
+      if (isLast) gsap.set(cards[cardIndex], { scale: 1 });
+      const tweenProps = {
         left: pos.left,
         top: pos.top,
         rotation: pos.rotation,
-        scale: 1,
         opacity: 1,
         duration: 1.0,
         delay: 0.3 + i * 0.2,
         ease: 'power2.out',
-      });
+      };
+      if (!isLast) tweenProps.scale = 1;
+      gsap.to(cards[cardIndex], tweenProps);
     });
 
     cards.forEach((card, i) => {
