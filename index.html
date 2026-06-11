@@ -151,15 +151,69 @@
   </section>
 
   <script>
-    // Set initial rotations via GSAP so it owns the transform matrix
-    const cards   = document.querySelectorAll('.photo-card');
-    const rotations = [-23.34, -9.01, -0.18];
+    const cards = Array.from(document.querySelectorAll('.photo-card'));
+
+    // Each position: left, top, rotation, zIndex
+    const positions = [
+      { left: 105, top: 70, rotation: -23.34, zIndex: 1 },
+      { left: 151, top: 55, rotation: -9.01,  zIndex: 2 },
+      { left: 216, top: 40, rotation: -0.18,  zIndex: 3 },
+    ];
+
+    // cardOrder[i] = which position index card i currently occupies
+    let cardOrder = [0, 1, 2];
+    let animating = false;
+
+    function applyPositions(animate) {
+      cards.forEach((card, i) => {
+        const pos = positions[cardOrder[i]];
+        if (animate) {
+          gsap.to(card, {
+            left: pos.left,
+            top: pos.top,
+            rotation: pos.rotation,
+            duration: 0.55,
+            ease: 'power3.out',
+            overwrite: 'auto',
+          });
+        } else {
+          gsap.set(card, { left: pos.left, top: pos.top, rotation: pos.rotation, zIndex: pos.zIndex, transformOrigin: 'center center' });
+        }
+      });
+    }
+
+    // Set initial state
+    applyPositions(false);
 
     cards.forEach((card, i) => {
-      const rot = rotations[i];
-      gsap.set(card, { rotation: rot, transformOrigin: 'center center' });
+      card.style.cursor = 'pointer';
+
+      card.addEventListener('click', () => {
+        if (animating) return;
+        if (cardOrder[i] === 2) return; // already front
+
+        animating = true;
+
+        // Find which card is currently front
+        const frontCardIndex = cardOrder.indexOf(2);
+        const clickedPos = cardOrder[i];
+
+        // Swap: clicked card → front, front card → clicked card's old position
+        cardOrder[frontCardIndex] = clickedPos;
+        cardOrder[i] = 2;
+
+        // Snap z-indexes immediately so clicked card renders on top during animation
+        cards.forEach((c, j) => {
+          c.style.zIndex = positions[cardOrder[j]].zIndex;
+        });
+
+        applyPositions(true);
+
+        setTimeout(() => { animating = false; }, 600);
+      });
 
       card.addEventListener('mouseenter', () => {
+        if (animating) return;
         gsap.to(card, {
           y: -16,
           scale: 1.03,
